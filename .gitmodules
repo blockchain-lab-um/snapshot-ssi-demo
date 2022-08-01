@@ -1,0 +1,16 @@
+[submodule "snapshot-hub"]
+	path = snapshot-hub
+	url = git@github.com:martines3000/snapshot-hub.git
+	branch = master
+[submodule "snapshot"]
+	path = snapshot
+	url = git@github.com:martines3000/snapshot.git
+	branch = develop
+[submodule "snapshot-score"]
+	path = snapshot-score
+	url = git@github.com:martines3000/snapshot-score.git
+	branch = master
+[submodule "snapshot.js"]
+	path = snapshot.js
+	url = git@github.com:martines3000/snapshot.js.git
+	branch = ssi-demo

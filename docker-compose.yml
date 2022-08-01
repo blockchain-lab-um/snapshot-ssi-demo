@@ -1,0 +1,50 @@
+version: "3.7"
+services:
+
+  # Snapshot hub
+  snapshot-hub:
+    build: ./snapshot-hub
+    container_name: snapshot-hub
+    env_file:
+      - ./snapshot-hub/.env
+    environment:
+      DATABASE_URL: mysql://admin:pwd@snapshot-mysql:3306/snapshot
+
+    depends_on:
+      - snapshot-mysql
+      - snapshot-scores
+    ports:
+      - "4444:4444"
+
+  # Snapshot MySQL instance
+  snapshot-mysql:
+    image: mysql:5.7
+    container_name: snapshot-mysql
+    environment:
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "pwd"
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "snapshot"
+    ports: 
+      - 0.0.0.0:3306:3333
+    volumes:
+        - "./snapshot-hub/src/helpers/database/:/docker-entrypoint-initdb.d/"
+
+  # Snapshot Scores API
+  snapshot-scores:
+    build: ./snapshot-score
+    container_name: snapshot-score
+    ports: 
+      - 3333:3333
+
+  # Snapshot dApp
+  snapshot:
+    build: ./snapshot
+    container_name: snapshot
+    ports: 
+      - 4132:80
+
+
+networks:
+  default:
+    name: snapshot-network
